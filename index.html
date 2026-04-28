@@ -1451,16 +1451,16 @@ meyraviptransfer@gmail.com`
 function calculateMainPrice(km, vehicle, tripType){
   let tiers = [];
 
-  if(vehicle.includes("Vito")){
+  if(vehicle.toLowerCase().includes("vito")){
     tiers = [
-      { limit: 100, price: 55 },
+      { limit: 100, price: 54 },
       { limit: 300, price: 45 },
       { limit: 600, price: 38 },
       { limit: Infinity, price: 30 }
     ];
   }
 
-  if(vehicle.includes("Sprinter")){
+  if(vehicle.toLowerCase().includes("sprinter")){
     tiers = [
       { limit: 100, price: 65 },
       { limit: 300, price: 55 },
