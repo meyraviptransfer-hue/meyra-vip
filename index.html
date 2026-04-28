@@ -1448,26 +1448,53 @@ meyraviptransfer@gmail.com`
     return { extras, extraPrice };
   }
 
-  function calculateMainPrice(km, vehicle, tripType){
-    let openingFee = 1400;
-    let perKm = 43;
+function calculateMainPrice(km, vehicle, tripType){
+  let tiers = [];
 
-    if(vehicle.includes("Sprinter")){
-      openingFee = 2100;
-      perKm = 50;
-    }
-
-    let price = openingFee + (km * perKm);
-
-    if(tripType === "Gidiş - Dönüş"){
-      price *= 2;
-    }
-
-    if(vehicle.includes("Vito") && price < 2800) price = 2800;
-    if(vehicle.includes("Sprinter") && price < 4300) price = 4300;
-
-    return Math.round(price);
+  if(vehicle.includes("Vito")){
+    tiers = [
+      { limit: 100, price: 55 },
+      { limit: 300, price: 45 },
+      { limit: 600, price: 38 },
+      { limit: Infinity, price: 30 }
+    ];
   }
+
+  if(vehicle.includes("Sprinter")){
+    tiers = [
+      { limit: 100, price: 65 },
+      { limit: 300, price: 55 },
+      { limit: 600, price: 45 },
+      { limit: Infinity, price: 35 }
+    ];
+  }
+
+  let total = 0;
+  let previousLimit = 0;
+  let remainingKm = km;
+
+  for(const tier of tiers){
+    const tierKm = Math.min(remainingKm, tier.limit - previousLimit);
+
+    if(tierKm > 0){
+      total += tierKm * tier.price;
+      remainingKm -= tierKm;
+    }
+
+    previousLimit = tier.limit;
+
+    if(remainingKm <= 0) break;
+  }
+
+  if(tripType === "Gidiş - Dönüş"){
+    total *= 2;
+  }
+
+  if(vehicle.includes("Vito") && total < 2800) total = 2800;
+  if(vehicle.includes("Sprinter") && total < 4300) total = 4300;
+
+  return Math.round(total);
+}
 
   function allApprovalsDone(){
     return el.kvkkApproval.checked && el.privacyApproval.checked && el.explicitConsent.checked;
