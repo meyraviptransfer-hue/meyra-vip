@@ -1490,8 +1490,14 @@ function calculateMainPrice(km, vehicle, tripType){
     total *= 2;
   }
 
-  if(vehicle.includes("Vito") && total < 2800) total = 2800;
-  if(vehicle.includes("Sprinter") && total < 4300) total = 4300;
+  // Minimum fiyat sadece çok kısa mesafelerde devreye girsin
+if(vehicle.toLowerCase().includes("vito") && km < 40 && total < 1800){
+  total = 1800;
+}
+
+if(vehicle.toLowerCase().includes("sprinter") && km < 40 && total < 2500){
+  total = 2500;
+}
 
   return Math.round(total);
 }
