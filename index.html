@@ -1626,54 +1626,26 @@ if(vehicle.toLowerCase().includes("sprinter") && km < 40 && total < 2500){
     const { extras } = getExtras();
 
     const message =
-`Merhaba, Meyra VIP Transfer için rezervasyon / fiyat teklifi talebi iletiyorum.
+`Meyra VIP Transfer Rezervasyon Talebi
 
 Ad Soyad: ${el.fullname.value.trim() || "-"}
 Telefon: ${el.phone.value.trim() || "-"}
-Kimlik / Pasaport No: ${el.identityNo.value.trim() || "-"}
-Tarih / Saat: ${el.datetime.value || "-"}
+Tarih/Saat: ${el.datetime.value || "-"}
 
-Başlangıç Noktası: ${el.origin.value.trim()}
-Varış Noktası: ${el.destination.value.trim()}
-Yolculuk Tipi: ${el.tripType.value}
-
-Araç Tipi: ${el.vehicle.value}
-Kişi Sayısı: ${el.passengers.value.trim() || "-"}
-Bagaj Sayısı: ${el.luggage.value.trim() || "0"}
+Rota: ${el.origin.value.trim()} → ${el.destination.value.trim()}
+Yolculuk: ${el.tripType.value}
+Araç: ${el.vehicle.value}
+Kişi/Bagaj: ${el.passengers.value.trim() || "-"} kişi / ${el.luggage.value.trim() || "0"} bagaj
 
 Mesafe: ${distanceKm.toFixed(1)} km
-Tahmini Süre: ${durationText}
+Süre: ${durationText}
+Fiyat: ${formatTRY(totalTRY)} / ${formatEUR(totalEUR)} / ${formatUSD(totalUSD)}
 
-Ekstra Opsiyonlar: ${extras.length ? extras.join(", ") : "Yok"}
-
-Tahmini Fiyat:
-TL: ${formatTRY(totalTRY)}
-EUR: ${formatEUR(totalEUR)}
-USD: ${formatUSD(totalUSD)}
-
-Kur Bilgisi:
-1 EUR = ${rates.eurTry.toFixed(4)} TRY
-1 USD = ${rates.usdTry.toFixed(4)} TRY
-Kur Kaynağı: ${rates.source === "ecb" ? "ECB canlı veri" : "Yedek kur"}
-
-Ek Not: ${el.note.value.trim() || "-"}
-
-Onay Bilgileri:
-- KVKK Metni okundu ve kabul edildi
-- Gizlilik Politikası okundu ve kabul edildi
-- Açık rıza onayı verildi`;
+Not: ${el.note.value.trim() || "-"}`;
 
 const whatsappNumber = "905358535548";
-const encodedMessage = encodeURIComponent(message);
-
-const appUrl = `whatsapp://send?phone=${whatsappNumber}&text=${encodedMessage}`;
-const webUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
-
-window.location.href = appUrl;
-
-setTimeout(function(){
-  window.location.href = webUrl;
-}, 1200);
+const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+window.location.href = url;
   }
 
   el.openKvkkBtn.addEventListener("click", ()=>openModal(el.kvkkModal));
