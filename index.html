@@ -702,7 +702,7 @@
 
         <div class="btns">
           <button class="btn btn-gold" id="quoteBtn" disabled data-i18n="quoteBtn">Rota ve Fiyatı Göster</button>
-          <button class="btn btn-green" id="waBtn" disabled data-i18n="waBtn">WhatsApp’tan Gönder</button>
+          <button type="button" class="btn btn-green" id="waBtn" disabled data-i18n="waBtn">WhatsApp’tan Gönder</button>
         </div>
       </div>
     </div>
@@ -1664,15 +1664,13 @@ Onay Bilgileri:
 - Açık rıza onayı verildi`;
 
 const whatsappNumber = "905358535548";
-const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
 
-const a = document.createElement("a");
-a.href = url;
-a.target = "_top";
-a.rel = "noopener";
-document.body.appendChild(a);
-a.click();
-a.remove();
+try {
+  window.top.location.href = url;
+} catch (e) {
+  window.location.href = url;
+}
   }
 
   el.openKvkkBtn.addEventListener("click", ()=>openModal(el.kvkkModal));
