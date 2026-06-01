@@ -1645,8 +1645,12 @@ Not: ${el.note.value.trim() || "-"}`;
 
 const whatsappNumber = "905358535548";
 const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-window.location.href = url;
-  }
+
+try {
+  window.parent.location.href = url;
+} catch(e) {
+  window.location.href = url;
+}
 
   el.openKvkkBtn.addEventListener("click", ()=>openModal(el.kvkkModal));
   el.openPrivacyBtn.addEventListener("click", ()=>openModal(el.privacyModal));
