@@ -1664,13 +1664,16 @@ Onay Bilgileri:
 - Açık rıza onayı verildi`;
 
 const whatsappNumber = "905358535548";
-const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+const encodedMessage = encodeURIComponent(message);
 
-try {
-  window.top.location.href = url;
-} catch (e) {
-  window.location.href = url;
-}
+const appUrl = `whatsapp://send?phone=${whatsappNumber}&text=${encodedMessage}`;
+const webUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+window.location.href = appUrl;
+
+setTimeout(function(){
+  window.location.href = webUrl;
+}, 1200);
   }
 
   el.openKvkkBtn.addEventListener("click", ()=>openModal(el.kvkkModal));
