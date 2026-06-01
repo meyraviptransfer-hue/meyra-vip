@@ -1644,12 +1644,15 @@ Fiyat: ${formatTRY(totalTRY)} / ${formatEUR(totalEUR)} / ${formatUSD(totalUSD)}
 Not: ${el.note.value.trim() || "-"}`;
 
 const whatsappNumber = "905358535548";
-const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+const url = `https://wa.me/${whatsappNumber}`;
 
-try {
-  window.parent.location.href = url;
-} catch(e) {
+navigator.clipboard.writeText(message).then(function(){
+  alert("Rezervasyon bilgileri kopyalandı. WhatsApp açıldığında mesaj alanına yapıştırabilirsiniz.");
   window.location.href = url;
+}).catch(function(){
+  alert("WhatsApp açılıyor. Mesaj bilgileri ekranda gösterilecek.");
+  window.location.href = url;
+});
 }
 
   el.openKvkkBtn.addEventListener("click", ()=>openModal(el.kvkkModal));
